@@ -1,0 +1,102 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id            String     @id @default(cuid())
+  name          String?
+  email         String?    @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  businesses    Business[]
+  createdAt     DateTime   @default(now())
+  updatedAt     DateTime   @updatedAt
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Business {
+  id               String   @id @default(cuid())
+  userId           String
+  googleLocationId String   @unique
+  // GBP account that owns the location; resolved automatically on first sync when not known.
+  googleAccountId  String?
+  name             String
+  address          String?
+  alertEmail       String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  reviews          Review[]
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Review {
+  id              String   @id @default(cuid())
+  businessId      String
+  googleReviewId  String   @unique
+  authorName      String
+  authorPhotoUrl  String?
+  rating          Int
+  comment         String?  @db.Text
+  reviewCreatedAt DateTime
+  status          String   @default("PENDING") // PENDING, REPLIED, IGNORED
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  reply           Reply?
+
+  business Business @relation(fields: [businessId], references: [id], onDelete: Cascade)
+}
+
+model Reply {
+  id          String    @id @default(cuid())
+  reviewId    String    @unique
+  content     String    @db.Text
+  status      String    @default("DRAFT") // DRAFT, PUBLISHED
+  publishedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  review Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+}
