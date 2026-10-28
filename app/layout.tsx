@@ -14,8 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Replyr",
-  description: "Gestão de reputação e resposta inteligente a avaliações",
+  title: "Replyr · Respostas com IA para avaliações do Google",
+  description:
+    "Sincronize as avaliações do seu Perfil da Empresa no Google, receba alertas por e-mail e publique respostas educadas e empáticas geradas por IA.",
 };
 
 export default function RootLayout({
@@ -24,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt">
+    <html lang="pt-BR" className="scroll-smooth" data-scroll-behavior="smooth">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

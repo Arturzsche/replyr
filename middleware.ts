@@ -3,7 +3,7 @@ import { auth } from "@/auth"
 
 export default auth((req) => {
   if (!req.auth) {
-    return NextResponse.redirect(new URL("/", req.nextUrl.origin))
+    return NextResponse.redirect(new URL("/login", req.nextUrl.origin))
   }
 })
 

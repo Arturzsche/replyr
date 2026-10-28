@@ -13,6 +13,7 @@
     "@prisma/client": "^6.19.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "framer-motion": "^14.7.1",
     "googleapis": "^188.0.0",
     "lucide-react": "^1.62.0",
     "next": "15.5.28",

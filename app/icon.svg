@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <style>
+    text { fill: #0F172A; }
+    @media (prefers-color-scheme: dark) { text { fill: #F8FAFC; } }
+  </style>
+  <text x="2" y="26" font-family="Geist, Inter, 'Segoe UI', Arial, sans-serif" font-size="28" font-weight="800" letter-spacing="-1">R</text>
+  <circle cx="26.5" cy="23.5" r="3" fill="#10B981"/>
+</svg>
